@@ -1,0 +1,13 @@
+<div>
+  <app-error-screen *ngIf="error"></app-error-screen>
+  <app-call-to-action-screen *ngIf="!error && currentScreen === 0"></app-call-to-action-screen>
+  <app-percentage-bar-screen
+    *ngIf="!error && currentScreen === 1"
+    [percentage]="percentage">
+  </app-percentage-bar-screen>
+  <app-goal-screen
+    *ngIf="!error && currentScreen === 2"
+    [percentage]="percentage"
+    [goals]="goals">
+  </app-goal-screen>
+</div>

@@ -1,0 +1,101 @@
+{
+  "info": {
+    "_postman_id": "02f2d07a-9c00-4ff6-ac62-1909f71b32e4",
+    "name": "NSE-Thermometer",
+    "description": "All endpoints for the NSE Thermometer API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "6392148"
+  },
+  "item": [
+    {
+      "name": "List all goals",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/goals",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "goals"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add goal",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"targetPercentage\": 5,\n    \"name\": \"demo\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/goals",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "goals"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get current percentage",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/percentage",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "percentage"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Change current percentage",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/percentage/20",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "percentage",
+            "20"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

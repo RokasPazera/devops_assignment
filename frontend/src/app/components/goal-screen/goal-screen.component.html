@@ -1,0 +1,18 @@
+<div class="screen w-screen h-screen flex flex-col justify-center items-center text-center bg-gradient-to-tr from-sky-800 to-sky-500">
+  <h1 #title class="m-0 mb-5 p-0 text-white text-7xl">
+    With <span class="percentage text-lime-500">{{ percentage }}%</span> you have unlocked...
+  </h1>
+
+  <div #goalList class="flex flex-wrap justify-center gap-5 mt-5 w-11/12 max-w-[1200px]">
+    <div *ngFor="let goal of goals"
+         #cards
+         class="card flex items-center justify-start rounded-lg p-3 font-bold drop-shadow-lg text-lg w-[calc(50%-10px)] sm:w-[45%] md:w-[30%] lg:w-[22%]"
+         [ngClass]="percentage >= goal.targetPercentage ? 'bg-lime-500 text-lime-800' : 'bg-rose-700 text-rose-200'">
+      <div class="bg-white rounded-lg m-1 mr-3 p-2 pt-0 drop-shadow-md"
+           [ngClass]="percentage >= goal.targetPercentage ? 'text-lime-500' : 'text-rose-700'">
+        {{ goal.targetPercentage }}%
+      </div>
+      <div class="pb-3">{{ goal.name }}</div>
+    </div>
+  </div>
+</div>

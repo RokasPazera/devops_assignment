@@ -147,10 +147,10 @@ Er zijn verschillende manieren om de backend te deployen naar je cloudomgeving, 
 
 ### 8. Maak de backend highly available
 
-Breid je Terraform-configuratie uit met een high availability en scalable backend. Vergeet niet om de frontend aan te passen om verbinding te maken met je nieuwe infrastructuur. Om te valideren of je infrastructuur correct is ingesteld, check je of je frontend de stretch goals laat zien.
+Breid je Terraform-configuratie uit met een high availability en scalable backend. Als je frontend op EC2 draait, breid je de schaalbaarheid ook daar op toe. Vergeet niet om de frontend aan te passen om verbinding te maken met je nieuwe infrastructuur. Om te valideren of je infrastructuur correct is ingesteld, check je of je frontend de stretch goals laat zien.
 
 Eisen:
-- Het aantal backend machines welke gebruikt worden schaalt automatisch bij meer load, en
-- er zijn machines in meerdere regios die de requests afhandelen
+- Het aantal backend machines welke gebruikt worden schaalt automatisch bij meer load.
+- Er zijn machines in meerdere availability zones die de requests afhandelen.
 
-Vergeet niet je architectuur diagram bij te werken, zodat de uiteindelijke architectuur opgenomen wordt in je documentatie.
+Vergeet niet je architectuurdiagram bij te werken, zodat de uiteindelijke architectuur opgenomen wordt in je documentatie.

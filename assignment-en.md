@@ -148,10 +148,10 @@ There are various ways to deploy the backend to your cloud environment, for exam
 
 ### 8. Make the backend highly available
 
-Extend your Terraform configuration with a highly available and scalable backend. Don't forget to update the frontend to connect to your new infrastructure. To validate whether your infrastructure is correctly configured, verify that your frontend displays the stretch goals.
+Extend your Terraform configuration with a highly available and scalable backend. If your frontend runs on EC2, extend the scalability there as well. Don't forget to update the frontend to connect to your new infrastructure. To validate whether your infrastructure is correctly configured, verify that your frontend displays the stretch goals.
 
 Requirements:
-- The number of backend machines in use scales automatically under increased load, and
-- there are machines in multiple regions handling the requests.
+- The number of backend machines in use scales automatically under increased load.
+- There are machines in multiple availability zones handling the requests.
 
 Don't forget to update your architecture diagram so that the final architecture is included in your documentation.

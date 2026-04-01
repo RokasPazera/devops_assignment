@@ -51,6 +51,8 @@ frontend:build:
 frontend:test:
   stage: test
   image: node:22
+  variables:
+    CHROME_BIN: /usr/bin/chromium
   script:
     - apt-get update && apt-get install -y chromium
     - cd frontend

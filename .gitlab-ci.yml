@@ -58,8 +58,8 @@ frontend:test:
     - apt-get update && apt-get install -y /tmp/chrome.deb
     - cd frontend
     - npm ci
+    - mkdir -p tests
     - npm run test:report
-    - find .. -name "units.html" 2>/dev/null
   artifacts:
     paths:
       - frontend/tests/units.html

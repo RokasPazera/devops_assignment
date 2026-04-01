@@ -1,0 +1,77 @@
+stages:
+  - test
+  - pages
+
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+
+backend:test:
+  stage: test
+  image: golang:latest
+  script:
+    - cd backend
+    - go test ./... -coverpkg=./... -coverprofile=coverage.out
+    - go tool cover -html=coverage.out -o coverage.html
+  artifacts:
+    paths:
+      - backend/coverage.html
+
+backend:lint:
+  stage: test
+  image: golangci/golangci-lint:latest
+  variables:
+    GOPATH: $CI_PROJECT_DIR/.go
+  script:
+    - cd backend
+    - golangci-lint run ./...
+
+backend:security:
+  stage: test
+  image: golang:latest
+  variables:
+    GOPATH: $CI_PROJECT_DIR/.go
+  script:
+    - go install github.com/securego/gosec/v2/cmd/gosec@latest
+    - cd backend
+    - $GOPATH/bin/gosec ./...
+
+frontend:build:
+  stage: test
+  image: node:22
+  script:
+    - cd frontend
+    - npm ci --cache ../.npm --prefer-offline
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/dist/
+
+frontend:test:
+  stage: test
+  image: node:22
+  script:
+    - apt-get update && apt-get install -y chromium
+    - cd frontend
+    - npm ci
+    - npm run test:report
+  artifacts:
+    paths:
+      - frontend/tests/units.html
+
+pages:
+  stage: pages
+  image: alpine:latest
+  needs:
+    - backend:test
+    - frontend:test
+  script:
+    - mkdir -p public/coverage public/test-report
+    - cp backend/coverage.html public/coverage/index.html
+    - cp frontend/tests/units.html public/test-report/index.html
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'

@@ -59,6 +59,7 @@ frontend:test:
     - cd frontend
     - npm ci
     - npm run test:report
+    - find .. -name "units.html" 2>/dev/null
   artifacts:
     paths:
       - frontend/tests/units.html

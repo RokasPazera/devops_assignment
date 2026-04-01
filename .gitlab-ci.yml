@@ -58,8 +58,10 @@ frontend:test:
     - apt-get update && apt-get install -y /tmp/chrome.deb
     - cd frontend
     - npm ci
-    - mkdir -p tests
-    - npm run test:report
+    - npm run test:report 2>&1 | tee /tmp/test-output.txt
+    - echo "<html><body><pre>" > tests/units.html
+    - cat /tmp/test-output.txt >> tests/units.html
+    - echo "</pre></body></html>" >> tests/units.html
   artifacts:
     paths:
       - frontend/tests/units.html

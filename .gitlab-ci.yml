@@ -21,8 +21,6 @@ backend:test:
 backend:lint:
   stage: test
   image: golangci/golangci-lint:latest
-  variables:
-    GOPATH: $CI_PROJECT_DIR/.go
   script:
     - cd backend
     - golangci-lint run ./...
@@ -42,7 +40,7 @@ frontend:build:
   image: node:22
   script:
     - cd frontend
-    - npm ci --cache ../.npm --prefer-offline
+    - npm ci
     - npm run build
   artifacts:
     paths:
@@ -58,11 +56,8 @@ frontend:test:
     - apt-get update && apt-get install -y /tmp/chrome.deb
     - cd frontend
     - npm ci
-    - npm run test:report 2>&1 | tee /tmp/test-output.txt
     - mkdir -p tests
-    - echo "<html><body><pre>" > tests/units.html
-    - cat /tmp/test-output.txt >> tests/units.html
-    - echo "</pre></body></html>" >> tests/units.html
+    - npm run test:report > tests/units.html
   artifacts:
     paths:
       - frontend/tests/units.html

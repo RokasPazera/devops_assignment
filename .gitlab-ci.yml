@@ -57,7 +57,9 @@ frontend:test:
     - cd frontend
     - npm ci
     - mkdir -p tests
-    - npm run test:report > tests/units.html
+    - echo "<html><body><pre>" > tests/units.html
+    - npm run test:report | sed 's/\x1b\[[0-9;]*[mGKHF]//g' >> tests/units.html
+    - echo "</pre></body></html>" >> tests/units.html
   artifacts:
     paths:
       - frontend/tests/units.html

@@ -59,6 +59,7 @@ frontend:test:
     - cd frontend
     - npm ci
     - npm run test:report 2>&1 | tee /tmp/test-output.txt
+    - mkdir -p tests
     - echo "<html><body><pre>" > tests/units.html
     - cat /tmp/test-output.txt >> tests/units.html
     - echo "</pre></body></html>" >> tests/units.html

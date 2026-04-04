@@ -124,7 +124,7 @@ deploy:backend:
           docker stop backend || true &&
           docker rm backend || true &&
           docker run -d --name backend --restart always -p 8000:8000 \
-            -e DB_CONNECTION='$DB_CONNECTION' \
+            -e DB_CONNECTION=\"$DB_CONNECTION\" \
             $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_TAG"
       done
   rules:

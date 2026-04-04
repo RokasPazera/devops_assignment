@@ -119,6 +119,7 @@ deploy:backend:
         --output text)
       for IP in $INSTANCE_IPS; do
         ssh -o StrictHostKeyChecking=no ec2-user@$IP "
+          until sudo docker info; do echo 'Waiting for Docker...'; sleep 5; done &&
           sudo docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
           sudo docker pull $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_TAG &&
           sudo docker stop backend || true &&

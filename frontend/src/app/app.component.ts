@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { environment } from '../environments/environment';
 import { CallToActionScreenComponent } from './components/call-to-action-screen/call-to-action-screen.component';
 import { ErrorScreenComponent } from './components/error-screen/error-screen.component';
 import { PercentageBarScreenComponent } from './components/percentage-bar-screen/percentage-bar-screen.component';
@@ -33,11 +34,11 @@ export class AppComponent implements OnInit {
 
   async loadFromAPI() {
     try {
-      const res = await fetch('http://localhost:3000/api/percentage');
+      const res = await fetch(`${environment.apiUrl}/api/percentage`);
       const data = await res.json();
       this.percentage = data.percentage;
 
-      const resGoals = await fetch('http://localhost:3000/api/goals');
+      const resGoals = await fetch(`${environment.apiUrl}/api/goals`);
       this.goals = await resGoals.json();
 
       this.error = false;

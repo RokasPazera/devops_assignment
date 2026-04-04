@@ -1,1 +1,21 @@
-# Your variables here
+variable "region" {
+  default = "us-east-1"
+}
+
+variable "ami_id" {
+  description = "Amazon Linux 2 AMI for us-east-1"
+  default     = "ami-0c02fb55956c7d316"
+}
+
+variable "key_name" {
+  description = "AWS key pair name for SSH access"
+}
+
+variable "mssql_password" {
+  description = "SA password for MSSQL"
+  sensitive   = true
+}
+
+variable "frontend_bucket_name" {
+  description = "S3 bucket name"
+}

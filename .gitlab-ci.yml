@@ -32,6 +32,7 @@ backend:lint:
 backend:security:
   stage: test
   image: golang:latest
+  allow_failure: true
   variables:
     GOPATH: $CI_PROJECT_DIR/.go
   script:

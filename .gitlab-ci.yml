@@ -143,6 +143,9 @@ deploy:backend:
         --query 'Reservations[].Instances[].PublicIpAddress' \
         --output text)
       for IP in $INSTANCE_IPS; do
+        until ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 ec2-user@$IP echo "SSH ready"; do
+          echo "Waiting for SSH on $IP..."; sleep 10
+        done
         ssh -o StrictHostKeyChecking=no ec2-user@$IP "
           until sudo docker info; do echo 'Waiting for Docker...'; sleep 5; done &&
           sudo docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&

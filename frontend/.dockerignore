@@ -1,4 +1,26 @@
-.git
-node_modules
-dist
-README.md
+# Git
+.git/
+.gitignore
+
+# Dependencies (installed during build)
+node_modules/
+
+# Build output
+dist/
+.angular/
+
+# Tests
+karma_html/
+tests/
+coverage/
+
+# Docs
+*.md
+
+# IDE
+.idea/
+.vscode/
+
+# Environment files
+.env*
+src/environments/environment.aws.ts

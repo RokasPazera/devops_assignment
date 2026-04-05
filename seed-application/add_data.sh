@@ -2,12 +2,25 @@
 
 #db cleaning
 # sqlite3 app.db "DELETE FROM goals; DELETE FROM percentages;"
+set -euo pipefail
 
 BACKEND_URL="${BACKEND_URL:-http://localhost:8000}"
 URL="${BACKEND_URL}/api/goals"
 
-MMD="goals.mmd"
-MMV="goals.mmv"
+MMD="${MMD:-goals.mmd}"
+MMV="${MMV:-goals.mmv}"
+
+if [ ! -f "$MMD" ]; then
+  echo "Error: data file '$MMD' not found." >&2
+  exit 1
+fi
+
+if [ ! -f "$MMV" ]; then
+  echo "Error: data file '$MMV' not found." >&2
+  exit 1
+fi
+
+echo "Seeding backend at $URL..."
 
 declare -A values
 while IFS= read -r line || [ -n "$line" ]; do
@@ -34,6 +47,9 @@ while IFS= read -r line || [ -n "$line" ]; do
   fi
 done < "$MMD"
 
+SUCCESS=0
+FAILED=0
+
 for eid in "${!target_ids[@]}"; do
   tv="${target_ids[$eid]}"
   gv="${goal_ids[$eid]:-}"
@@ -46,8 +62,26 @@ for eid in "${!target_ids[@]}"; do
       n="${n//\\/\\\\}"
       n="${n//\"/\\\"}"
       json="{\"name\":\"${n}\",\"targetPercentage\":${pct}}"
-      curl -sS -X POST -H "Content-Type: application/json" -d "$json" "$URL"
-      echo
+
+      HTTP_STATUS=$(curl -sS -o /dev/null -w "%{http_code}" \
+        -X POST \
+        -H "Content-Type: application/json" \
+        -d "$json" \
+        "$URL")
+
+      if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
+        echo "OK [$HTTP_STATUS]: $goal_name ($pct%)"
+        SUCCESS=$((SUCCESS + 1))
+      else
+        echo "Error [$HTTP_STATUS]: failed to seed '$goal_name'" >&2
+        FAILED=$((FAILED + 1))
+      fi
     fi
   fi
 done
+
+echo "Done: $SUCCESS succeeded, $FAILED failed."
+
+if [ "$FAILED" -gt 0 ]; then
+  exit 1
+fi

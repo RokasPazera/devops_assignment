@@ -14,6 +14,11 @@ workflow:
 backend:test:
   stage: test
   image: golang:latest
+  cache:
+    key: go-$CI_COMMIT_REF_SLUG
+    paths:
+      - backend/vendor/
+      - $GOPATH/pkg/mod/
   script:
     - cd backend
     - go test ./... -coverpkg=./... -coverprofile=coverage.out
@@ -25,6 +30,10 @@ backend:test:
 backend:lint:
   stage: test
   image: golangci/golangci-lint:latest
+  cache:
+    key: go-$CI_COMMIT_REF_SLUG
+    paths:
+      - backend/vendor/
   script:
     - cd backend
     - golangci-lint run ./...
@@ -33,6 +42,10 @@ backend:security:
   stage: test
   image: golang:latest
   allow_failure: true
+  cache:
+    key: go-$CI_COMMIT_REF_SLUG
+    paths:
+      - .go/pkg/mod/
   variables:
     GOPATH: $CI_PROJECT_DIR/.go
   script:
@@ -43,6 +56,10 @@ backend:security:
 frontend:build:
   stage: test
   image: node:22
+  cache:
+    key: node-$CI_COMMIT_REF_SLUG
+    paths:
+      - frontend/node_modules/
   script:
     - cd frontend
     - npm ci
@@ -58,6 +75,10 @@ frontend:build:
 frontend:test:
   stage: test
   image: node:22
+  cache:
+    key: node-$CI_COMMIT_REF_SLUG
+    paths:
+      - frontend/node_modules/
   variables:
     CHROME_BIN: /usr/bin/google-chrome
   script:

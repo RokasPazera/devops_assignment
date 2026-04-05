@@ -1,1 +1,11 @@
-README.md
+# Git
+.git/
+.gitignore
+
+# Docs
+*.md
+Dockerfile
+
+# IDE
+.idea/
+.vscode/

@@ -197,14 +197,14 @@ resource "aws_launch_template" "backend" {
   key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.backend.id]
 
-  # Only installs Docker and the CI/CD pipeline deploys the actual container
+  # Installs Docker first so SSH + CI deploy work quickly. full yum update runs in background.
   user_data = base64encode(<<-EOF
     #!/bin/bash
-    yum update -y
     yum install -y docker
     systemctl start docker
     systemctl enable docker
     usermod -aG docker ec2-user
+    nohup bash -c 'yum update -y' >>/var/log/yum-background.log &
   EOF
   )
 
@@ -224,7 +224,7 @@ resource "aws_autoscaling_group" "backend" {
   }
 
   health_check_type         = "ELB"
-  health_check_grace_period = 60
+  health_check_grace_period = 600
 }
 
 resource "aws_autoscaling_policy" "scale" {
